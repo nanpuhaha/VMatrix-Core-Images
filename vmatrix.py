@@ -26,7 +26,7 @@ class Mask(NamedTuple):
 
     def masking(self, img):
         if not contains_alpha_channel(img):
-            raise Exception(f"image does not have alpha channel.")
+            raise Exception("image does not have alpha channel.")
 
         left_masked = img.copy()
         left_masked[self.left] = (0, 0, 0, 0)

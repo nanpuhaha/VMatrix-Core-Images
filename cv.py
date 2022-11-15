@@ -33,11 +33,7 @@ def makedirs_if_not_exists(filepath: Union[str, Path]):
         filepath = Path(filepath)
 
     if isinstance(filepath, Path):
-        if filepath.is_dir():
-            dir = filepath
-        else:
-            dir = filepath.parent
-
+        dir = filepath if filepath.is_dir() else filepath.parent
     if not dir.exists():
         dir.mkdir()
 
@@ -65,7 +61,4 @@ def contains_alpha_channel(image: np.ndarray):
     if not isinstance(image, np.ndarray):
         raise ValueError(f"image is NOT np.ndarray: {type(image)}")
 
-    if len(image.shape) == 3 and image.shape[-1] == 4:
-        return True
-
-    return False
+    return len(image.shape) == 3 and image.shape[-1] == 4
