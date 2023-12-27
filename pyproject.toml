@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "vmatrix-core-images"
+version = "0.1.0"
+description = ""
+authors = ["Seo, Jang-won <nanpuhaha@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+opencv-python = "^4.8.1.78"
+pillow = "^10.1.0"
+scikit-image = "^0.22.0"
+imutils = "^0.5.4"
+apng = "^0.3.4"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.12.1"
+isort = "^5.13.2"
+autoflake = "^2.2.1"
+ipykernel = "^6.28.0"
+pytest = "^7.4.3"
+mypy = "^1.8.0"
+rich = "^13.7.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
