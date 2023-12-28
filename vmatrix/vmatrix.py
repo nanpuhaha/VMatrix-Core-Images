@@ -4,11 +4,10 @@ from typing import NamedTuple
 
 import cv2
 import numpy as np
+from cv import contains_alpha_channel, imread, write
 from PIL import Image
 
-from cv import contains_alpha_channel, imread, imwrite
-
-PROJECT_DIR = Path(__file__).parent
+PROJECT_DIR = Path(__file__).parent.parent
 IMG_DIR = PROJECT_DIR / "img"
 SKILL_DIR = IMG_DIR / "skills"
 UI_DIR = IMG_DIR / "VMatrixUI"
@@ -26,7 +25,7 @@ class Mask(NamedTuple):
 
     def masking(self, img):
         if not contains_alpha_channel(img):
-            raise Exception(f"image does not have alpha channel.")
+            raise Exception("image does not have alpha channel.")
 
         left_masked = img.copy()
         left_masked[self.left] = (0, 0, 0, 0)
@@ -129,10 +128,11 @@ class VMatrixImage:
             try:
                 masked_dict = self.mask.masking(img)
             except ValueError as err:
-                print(f"ValueError on {direction} {skill_icon.name}.")
+                print(f"ValueError on {skill_icon.name}.")
+                print(err)
             else:
                 for direction, masked_img in masked_dict.items():
-                    imwrite(self.path / direction / skill_icon.name, masked_img)
+                    write(self.path / direction / skill_icon.name, masked_img)
 
     def combinate(self):
         self.create_combination_directory()
@@ -144,28 +144,26 @@ class VMatrixImage:
 
             combination = left + right + up
             filename = f"{a.stem}+{b.stem}+{c.stem}.png"
-            imwrite(self.path / "comb" / filename, combination)
+            write(self.path / "comb" / filename, combination)
 
     def add_frame(self):
-        subdir = self.path / "comb+frame"
-        subdir.mkdir(exist_ok=True)
-
-        comb_dir = self.path / "comb"
-        files = self.get_pngs(comb_dir)
+        files = self.composite("comb+frame", "comb")
         for file in files:
             img = Image.alpha_composite(Image.open(file), self.icon.frame)
             img_with_frame = Image.alpha_composite(self.icon.background, img)
             img_with_frame.save(self.path / "comb+frame" / file.name)
 
     def add_lock(self):
-        subdir = self.path / "comb+frame+lock"
-        subdir.mkdir(exist_ok=True)
-
-        comb_frame_dir = self.path / "comb+frame"
-        files = self.get_pngs(comb_frame_dir)
+        files = self.composite("comb+frame+lock", "comb+frame")
         for file in files:
             img = Image.alpha_composite(Image.open(file), self.icon.crop_lock)
             img.save(self.path / "comb+frame+lock" / file.name)
+
+    def composite(self, arg0, arg1):
+        subdir = self.path / arg0
+        subdir.mkdir(exist_ok=True)
+        comb_dir = self.path / arg1
+        return self.get_pngs(comb_dir)
 
     def remove_masking_images(self):
         for direction in self.mask.directions:
@@ -184,7 +182,6 @@ class VMatrixImage:
 
 
 if __name__ == "__main__":
-
     # for one job/class
     path = SKILL_DIR / "Adele"
     vm = VMatrixImage(path)

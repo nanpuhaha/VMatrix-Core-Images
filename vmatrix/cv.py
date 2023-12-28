@@ -33,16 +33,12 @@ def makedirs_if_not_exists(filepath: Union[str, Path]):
         filepath = Path(filepath)
 
     if isinstance(filepath, Path):
-        if filepath.is_dir():
-            dir = filepath
-        else:
-            dir = filepath.parent
-
-    if not dir.exists():
-        dir.mkdir()
+        directory = filepath if filepath.is_dir() else filepath.parent
+    if not directory.exists():
+        directory.mkdir()
 
 
-def imwrite(filepath: Union[str, Path], img: np.ndarray):
+def write(filepath: Union[str, Path], img: np.ndarray):
     """cv2.imwrite alternative for Korean filepath"""
 
     if isinstance(filepath, str):
