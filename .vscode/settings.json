@@ -1,0 +1,12 @@
+{
+    "cSpell.words": [
+        "dtype",
+        "imdecode",
+        "imencode",
+        "imread",
+        "imwrite",
+        "ndarray",
+        "pngs",
+        "tofile"
+    ]
+}
