@@ -7,7 +7,7 @@ Create VMatrix core images.
 1. Extract skill icons from `Skill.wz` to `./img/skills` using [WzComparerR2](https://github.com/KENNYSOFT/WzComparerR2).
    - Check all skill icons are (32,32,4).
 2. Extract the background, frame, mask, lock icons from `UI.wz/VMatrixUI.img` to `./img/VMatrixUI`.
-   
+
    ![Picture of frame](./img/VMatrixUI/VMatrix.SlotState.Equip_ENCore.png)
    ![Picture of frame](./img/VMatrixUI/VMatrix.iconFrame.frame3.png)
    ![Picture of frame](./img/VMatrixUI/VMatrix.iconMask.3A_32.png)
